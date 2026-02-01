@@ -1,0 +1,198 @@
+# OpenAPI Specification: Finance Todo AI Chatbot
+
+## Chat Endpoint
+
+### POST /api/{user_id}/chat
+
+#### Description
+Main endpoint for interacting with the Finance AI assistant. Handles conversation creation, message storage, and AI processing.
+
+#### Path Parameters
+- **user_id** (string, required)
+  - The unique identifier of the user
+  - Format: String identifier
+
+#### Request Body
+```json
+{
+  "message": "string (required)",
+  "conversation_id": "integer (optional)"
+}
+```
+
+- **message** (string, required)
+  - The user's message to the AI assistant
+  - Min length: 1 character
+  - Max length: 10000 characters
+
+- **conversation_id** (integer, optional)
+  - The ID of an existing conversation to continue
+  - If not provided, a new conversation will be created
+
+#### Responses
+
+##### 200: Success
+```json
+{
+  "conversation_id": "integer",
+  "response": "string",
+  "tool_calls": [
+    {
+      "name": "string",
+      "arguments": "object"
+    }
+  ]
+}
+```
+
+- **conversation_id** (integer)
+  - The ID of the conversation (either provided or newly created)
+  
+- **response** (string)
+  - The AI assistant's response to the user's message
+  
+- **tool_calls** (array of objects, optional)
+  - List of MCP tools called by the AI during processing
+  - Each object contains:
+    - **name** (string): The name of the tool called
+    - **arguments** (object): The arguments passed to the tool
+
+##### 400: Bad Request
+```json
+{
+  "error": "string"
+}
+```
+
+- Occurs when the request body is invalid (missing message field)
+
+##### 404: Not Found
+```json
+{
+  "error": "string"
+}
+```
+
+- Occurs when the conversation_id is provided but doesn't exist
+
+##### 500: Internal Server Error
+```json
+{
+  "error": "Something went wrong. Please try again."
+}
+```
+
+- Occurs when there's an unexpected server error
+
+#### Security
+- Requires authentication via Better Auth session
+- User can only access their own conversations (user_id must match authenticated user)
+
+## MCP Tools API
+
+### add_finance_task
+- **Input Schema**: 
+  ```json
+  {
+    "user_id": "string",
+    "title": "string",
+    "description": "string (optional)",
+    "category": "enum",
+    "amount": "float (optional)",
+    "due_date": "string (optional)"
+  }
+  ```
+- **Output**: 
+  ```json
+  {
+    "task_id": "integer",
+    "status": "created",
+    "title": "string",
+    "category": "string"
+  }
+  ```
+- **DB Action**: INSERT into finance_task
+
+### list_finance_tasks
+- **Input Schema**: 
+  ```json
+  {
+    "user_id": "string",
+    "status": "enum (optional)", // all|pending|completed
+    "category": "enum (optional)"
+  }
+  ```
+- **Output**: 
+  ```json
+  [
+    {
+      "id": "integer",
+      "title": "string", 
+      "description": "string",
+      "category": "string",
+      "amount": "float",
+      "due_date": "string",
+      "completed": "boolean"
+    }
+  ]
+  ```
+- **DB Action**: SELECT with WHERE filters
+
+### complete_finance_task
+- **Input Schema**: 
+  ```json
+  {
+    "user_id": "string",
+    "task_id": "integer"
+  }
+  ```
+- **Output**: 
+  ```json
+  {
+    "task_id": "integer",
+    "status": "completed",
+    "title": "string"
+  }
+  ```
+- **DB Action**: UPDATE completed=True, updated_at=now()
+
+### delete_finance_task
+- **Input Schema**: 
+  ```json
+  {
+    "user_id": "string",
+    "task_id": "integer"
+  }
+  ```
+- **Output**: 
+  ```json
+  {
+    "task_id": "integer",
+    "status": "deleted",
+    "title": "string"
+  }
+  ```
+- **DB Action**: DELETE FROM finance_task WHERE id=task_id AND user_id=user_id
+
+### update_finance_task
+- **Input Schema**: 
+  ```json
+  {
+    "user_id": "string",
+    "task_id": "integer",
+    "title": "string (optional)",
+    "description": "string (optional)",
+    "category": "enum (optional)",
+    "amount": "float (optional)",
+    "due_date": "string (optional)"
+  }
+  ```
+- **Output**: 
+  ```json
+  {
+    "task_id": "integer",
+    "status": "updated",
+    "title": "string"
+  }
+  ```
+- **DB Action**: UPDATE only provided fields + updated_at=now()
