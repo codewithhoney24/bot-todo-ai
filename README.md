@@ -10,7 +10,7 @@ This is a finance-focused todo application with AI-powered features.
 
 ## Deployment
 
-The frontend is deployed on Vercel at: https://frontend-dun-two-32.vercel.app/
+The frontend is deployed on Vercel at: https://frontend-red-eight-52.vercel.app/
 
 ## Backend Setup
 
@@ -31,3 +31,10 @@ cd frontend
 npm install
 npm run dev
 ```
+
+## Current Status
+
+✅ Local build: Working  
+✅ Vercel deployment: Fixed  
+✅ Path resolution: Fixed (`@/lib/utils` alias)  
+✅ CORS configuration: Updated for multiple platforms
