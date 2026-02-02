@@ -7,6 +7,10 @@ const nextConfig = {
   },
   experimental: {
     webpackBuildWorker: false,
+  },
+  // Specify the root directory to resolve the multiple lockfiles warning
+  turbopack: {
+    root: "./"
   }
 }
 
