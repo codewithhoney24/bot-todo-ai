@@ -38,7 +38,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-      <div className="bg-slate-800 rounded-xl p-8 w-full max-w-md border border-slate-700 shadow-2xl">
+      <div className="bg-slate-800 rounded-xl p-8 w-full max-w-md border border-slate-600 shadow-2xl">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-slate-100 mb-2">Finance Buddy</h1>
           <p className="text-slate-400">Sign in to manage your finances</p>
