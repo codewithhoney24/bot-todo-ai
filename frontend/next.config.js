@@ -6,10 +6,7 @@ const nextConfig = {
     unoptimized: true
   },
   experimental: {
-    webpackBuildWorker: false,
-    turbopack: {
-      root: process.env.NODE_ENV === 'production' ? undefined : './'
-    }
+    webpackBuildWorker: false
   }
 }
 
