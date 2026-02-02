@@ -13,7 +13,8 @@ app = FastAPI(title="Finance Todo AI Chatbot", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://frontend-red-eight-52.vercel.app",
+        os.getenv("FRONTEND_VERCEL_URL", "https://frontend-red-eight-52.vercel.app"),
+        os.getenv("FRONTEND_HF_SPACE_URL", "https://codewithhoney24-chatbot-todo-hgging-f.hf.space"),
         "https://vercel.com/nousheen-atif",
         "http://localhost:3000",  # Local development
         "http://localhost:3001",  # Alternative local dev port
@@ -21,6 +22,7 @@ app.add_middleware(
         "http://127.0.0.1:3000",  # Alternative local dev
         "http://127.0.0.1:3001",  # Alternative local dev
         "https://vercel.app",     # General Vercel domain
+        os.getenv("GITHUB_REPO_URL", "https://github.com/codewithhoney24/todo-chatbot-01"),
         "*"  # Allow all origins for local development (be cautious in production)
     ],
     allow_credentials=True,
