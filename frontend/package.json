@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "cd frontend && next dev",
-    "dev:backend": "cd backend && python -m uvicorn main:app --reload",
-    "build": "cd frontend && next build",
-    "start": "cd frontend && next start",
-    "lint": "cd frontend && next lint"
+    "dev": "next dev",
+    "dev:backend": "cd ../backend && python -m uvicorn main:app --reload",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
