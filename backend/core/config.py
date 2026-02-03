@@ -7,6 +7,9 @@ class Settings(BaseSettings):
     openai_api_key: Optional[str] = None
     auth_secret: Optional[str] = None
     log_level: str = "INFO"
+    frontend_vercel_url: Optional[str] = None
+    frontend_hf_space_url: Optional[str] = None
+    github_repo_url: Optional[str] = None
 
     class Config:
         env_file = ".env"
